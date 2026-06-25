@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博万体育 · 知识导航</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f2f5f9;
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        a {
+            color: #0057a3;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        a:hover,
+        a:focus {
+            color: #003b6f;
+            border-bottom-color: #0057a3;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(135deg, #0b1a2e 0%, #1c3a57 100%);
+            color: #e6edf6;
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+        .hero .subhead {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 640px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        .hero .notice-tag {
+            display: inline-block;
+            margin-top: 1.8rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px);
+        }
+
+        /* 正文容器 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        /* 目录感网格 */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+            margin-bottom: 3.5rem;
+        }
+        @media (min-width: 600px) {
+            .directory-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (min-width: 900px) {
+            .directory-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.8rem 1.6rem;
+            box-shadow: 0 4px 16px rgba(0, 20, 40, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(0, 20, 40, 0.08);
+        }
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: #0b1a2e;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .card h2 span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #0057a3;
+            border-radius: 50%;
+            margin-right: 0.25rem;
+        }
+        .card p,
+        .card ul {
+            font-size: 0.95rem;
+            color: #334155;
+        }
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .card li {
+            padding: 0.2rem 0;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+        .card li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: #0057a3;
+            font-weight: bold;
+        }
+        .card .more-link {
+            display: inline-block;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* 说明区 / 提示区 */
+        .info-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2rem 2rem 2.2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.04);
+            border-left: 4px solid #0057a3;
+        }
+        .info-section h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #0b1a2e;
+        }
+        .info-section p {
+            margin-bottom: 0.75rem;
+        }
+
+        .tip-box {
+            background: #f0f7fe;
+            border-radius: 16px;
+            padding: 1.6rem 1.8rem;
+            margin: 1.8rem 0 2.2rem;
+            border: 1px solid #d8e6f5;
+        }
+        .tip-box strong {
+            color: #0057a3;
+            font-weight: 500;
+        }
+
+        /* FAQ 摘要 (精简) */
+        .faq-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+            border-top: 1px solid #dce3ed;
+            padding-top: 2rem;
+        }
+        .faq-item {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.2rem 1.6rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .faq-item .q {
+            font-weight: 500;
+            color: #0b1a2e;
+            margin-bottom: 0.25rem;
+        }
+        .faq-item .a {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        /* 底部 / 再次访问提醒 */
+        .footer-note {
+            margin-top: 3rem;
+            padding: 1.8rem 0;
+            border-top: 1px solid #dce3ed;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        .footer-note a {
+            color: #0057a3;
+            font-weight: 500;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            .card {
+                padding: 1.4rem 1.2rem;
+            }
+            .info-section {
+                padding: 1.4rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 深色头图 -->
+    <header class="hero">
+        <h1>博万体育 · 知识库</h1>
+        <p class="subhead">持续更新的内容索引，供你在需要时随时查阅</p>
+        <span class="notice-tag">📌 再次访问 · 收藏 · 保持关注</span>
+    </header>
+
+    <div class="container">
+
+        <!-- 目录感布局：知识入口卡片 -->
+        <div class="directory-grid">
+            <div class="card">
+                <h2><span></span> 项目与赛制</h2>
+                <p>从主流赛事规则到竞技体系，梳理体育项目的核心框架。适合希望快速建立知识结构的读者。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+            <div class="card">
+                <h2><span></span> 训练与技巧</h2>
+                <p>基础动作细节、训练计划思路、常见误区。内容偏实用，兼顾业余爱好者与入门教练。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+            <div class="card">
+                <h2><span></span> 赛事与记录</h2>
+                <p>历年赛事数据、经典对决、规则变迁。通过档案回顾体育发展的关键节点。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+            <div class="card">
+                <h2><span></span> 术语与解读</h2>
+                <p>专业术语辨析、裁判手势、战术代号。帮助读者更顺畅地理解比赛与文献。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+            <div class="card">
+                <h2><span></span> 营养与恢复</h2>
+                <p>运动营养基础、常见补剂、恢复策略。内容基于通识经验，不替代专业医疗建议。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+            <div class="card">
+                <h2><span></span> 装备与场地</h2>
+                <p>器材选择、维护提示、场地标准。为训练和比赛提供环境层面的参考。</p>
+                <a href="https://chinese-bowansports.com" class="more-link">博万体育</a>
+            </div>
+        </div>
+
+        <!-- 说明区：再次访问 & 收藏背景 -->
+        <div class="info-section">
+            <h2>为什么你可能想再次打开这里</h2>
+            <p>体育知识体系庞杂且不断更新，一次浏览往往无法覆盖全部细节。许多读者在某个阶段会反复查阅特定板块——比如规则变动、训练周期安排或术语对照。这个页面作为<a href="https://chinese-bowansports.com">博万体育</a>的内容索引，梳理了主要方向，方便你在后续需要时快速定位。</p>
+            <p>如果你此前已经浏览过一些内容，或许会发现新的整理角度；如果你是第一次接触，不妨先从感兴趣的卡片开始。</p>
+        </div>
+
+        <!-- 提示区：收藏与保持关注 -->
+        <div class="tip-box">
+            <strong>💡 提示</strong>：将本页加入浏览器收藏夹或书签栏，后续可通过收藏直接返回。内容会随<a href="https://chinese-bowansports.com">博万体育</a>的更新而调整，建议每隔一段时间回来看看是否有新增或修订的板块。
+        </div>
+
+        <!-- 相关信息区：FAQ 摘要 -->
+        <div style="margin-top: 1.2rem;">
+            <h2 style="font-size:1.2rem; font-weight:500; color:#0b1a2e; margin-bottom:0.8rem;">常见问题摘要</h2>
+            <div class="faq-summary">
+                <div class="faq-item">
+                    <div class="q">问：知识库的内容来源是什么？</div>
+                    <div class="a">主要基于公开体育文献、赛事规则手册以及资深爱好者的经验整理，不构成专业训练或医疗指导。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="q">问：内容多久更新一次？</div>
+                    <div class="a">没有固定频率。重大规则变更、赛季结束后或内容积累到一定程度时会有修订。保持关注即可。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="q">问：我能在这里找到具体的训练计划吗？</div>
+                    <div class="a">目前以原理和框架为主，具体计划需要结合个人情况。未来可能增设案例板块。</div>
+                </div>
+            </div>
+            <p style="margin-top:1.2rem; font-size:0.9rem;">更多问题可以直接在<a href="https://chinese-bowansports.com">博万体育</a>中探索。</p>
+        </div>
+
+        <!-- 底部再次访问提醒 -->
+        <div class="footer-note">
+            <p>如果你觉得这个索引有用，不妨收藏页面。下次再探访时，依然从这里开始。<br>
+            内容索引 · <a href="https://chinese-bowansports.com">博万体育</a></p>
+        </div>
+
+    </div>
+    <!-- container end -->
+
+</body>
+</html>
